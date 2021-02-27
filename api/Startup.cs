@@ -29,8 +29,7 @@ namespace Space.Api
         options.AddDefaultPolicy(
           builder =>
           {
-            builder.WithOrigins("http://example.com").AllowAnyHeader()
-                                        .AllowAnyMethod();
+            builder.WithOrigins("https://www.apirequest.io").AllowAnyHeader().AllowAnyMethod();
           });
       });
 
