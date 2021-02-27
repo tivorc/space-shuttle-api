@@ -24,12 +24,14 @@ namespace Space.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      var allow = Configuration["allow"].Split(",");
+
       services.AddCors(options =>
       {
         options.AddDefaultPolicy(
           builder =>
           {
-            builder.WithOrigins("https://www.apirequest.io").AllowAnyHeader().AllowAnyMethod();
+            builder.WithOrigins(allow);
           });
       });
 
