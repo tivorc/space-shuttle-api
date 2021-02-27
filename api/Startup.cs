@@ -11,6 +11,7 @@ namespace Space.Api
 {
   public class Startup
   {
+    //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
       Configuration = configuration;
@@ -23,6 +24,16 @@ namespace Space.Api
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors(options =>
+      {
+        options.AddDefaultPolicy(
+          builder =>
+          {
+            builder.WithOrigins("http://example.com").AllowAnyHeader()
+                                        .AllowAnyMethod();
+          });
+      });
+
       services.AddControllers();
       services.AddSingleton<SpaceSchema>()
         .AddGraphQL((options, provider) =>
@@ -44,10 +55,11 @@ namespace Space.Api
 
       app.UseHttpsRedirection();
       app.UseGraphQLPlayground();
+      app.UseRouting();
+      app.UseCors();
 
       app.UseGraphQL<SpaceSchema>("/graphql");
 
-      app.UseRouting();
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>
       {
