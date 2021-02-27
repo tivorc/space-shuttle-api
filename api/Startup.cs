@@ -31,7 +31,7 @@ namespace Space.Api
         options.AddPolicy(MyAllowSpecificOrigins,
           builder =>
           {
-            builder.WithOrigins(allow);
+            builder.WithOrigins(allow).AllowAnyMethod().AllowAnyHeader();
           });
       });
 
