@@ -11,7 +11,7 @@ namespace Space.Api
 {
   public class Startup
   {
-    //readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+    readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
     public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
       Configuration = configuration;
@@ -28,7 +28,7 @@ namespace Space.Api
 
       services.AddCors(options =>
       {
-        options.AddDefaultPolicy(
+        options.AddPolicy(MyAllowSpecificOrigins,
           builder =>
           {
             builder.WithOrigins(allow);
@@ -55,11 +55,11 @@ namespace Space.Api
       }
 
       app.UseHttpsRedirection();
-      app.UseGraphQLPlayground();
       app.UseRouting();
-      app.UseCors();
+      app.UseCors(MyAllowSpecificOrigins);
 
       app.UseGraphQL<SpaceSchema>("/graphql");
+      app.UseGraphQLPlayground();
 
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>
